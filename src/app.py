@@ -120,12 +120,9 @@ seleccionador = dbc.Card(
                 html.Div(id="slider_container", children=[
 
                     dbc.Label("Cantidad de municipios"),
-                    dcc.Slider(
-                        id='input_slider',
-                        min=5,
-                        max=78,
-                        step=1,
+                    dcc.Slider(1, 78, 10,
                         value=10,
+                        id="input_slider",
                     ),
                     html.Div(id="output_slider", style={'display': 'block'}),
                 ]),
