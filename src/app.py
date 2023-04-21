@@ -1,5 +1,5 @@
 import dash_bootstrap_components as dbc
-from dash import html,dcc,Output,Input 
+from dash import Dash, html, dcc,Input,Output
 from shapely.geometry import Polygon, Point
 import plotly.express as px
 import pandas as pd 
@@ -9,16 +9,18 @@ import json
 import random
 
 
-app = dash.Dash(
+app = Dash(
     external_stylesheets=[dbc.themes.BOOTSTRAP],
     meta_tags=[{"name": "viewport",
                 "content": "width=device-width, initial-scale=1"}
-               ],
+                ],
 )
+
+#app = Dash(__name__)
 
 # suppress_callback_exceptions = True
 
-app = dash.Dash(external_stylesheets=[dbc.themes.CERULEAN])
+#app = Dash(external_stylesheets=[dbc.themes.CERULEAN])
 
 server = app.server
 
@@ -50,7 +52,9 @@ for inx in range(78):
 mapaMunicipiosReverse = json.load(open("municipios.geojson"))
 
 
+#########################################################################
 # función para generar puntos aleatorios dentro de un poligono en el mapa
+#########################################################################
 
 def random_points_within(poly, num_points):
 
@@ -120,9 +124,12 @@ seleccionador = dbc.Card(
                 html.Div(id="slider_container", children=[
 
                     dbc.Label("Cantidad de municipios"),
-                    dcc.Slider(1, 78, 10,
+                    dcc.Slider(
+                        id='input_slider',
+                        min=5,
+                        max=78,
+                        step=10,
                         value=10,
-                        id="input_slider",
                     ),
                     html.Div(id="output_slider", style={'display': 'block'}),
                 ]),
@@ -186,6 +193,7 @@ estadisticas = dbc.Card(
 similares = dbc.Card(
         dbc.FormGroup(
             [
+
                 html.Br(),
                 html.Div(id="similares"),
                 html.Br(),
@@ -361,7 +369,7 @@ def graficoBarras(cantidadMunicipios, miApellido):
                      color="municipio",
                      orientation="h")
 
-        fig.update_layout(margin=dict(l=10, r=10, b=20, t=1))
+        fig.update_layout(margin=dict(l=10, r=10, b=10, t=10))
 
         fig.update_layout(showlegend=False)
 
